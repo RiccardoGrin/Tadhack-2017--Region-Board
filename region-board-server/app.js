@@ -32,6 +32,25 @@ app.use(function(req, res, next) {
   next(err);
 });
 
+app.post('/message', function(req, res) {
+  console.log('Messages accessed');
+  res.setHeader('Content-Type', 'application/json');
+  //mimic a slow network connection
+  setTimeout(function(){
+      res.send(JSON.stringify({
+          message_sid: req.body.message_sid || null,
+          account_sid: req.body.account_sid || null,
+          from: req.body.from || null,
+          to: req.body.to || null,
+          text: req.body.text || null,
+          status: req.body.status || null
+      }));
+  }, 1000)
+
+  //debugging output for the terminal
+  console.log('you posted: ' + req.body.text + ', from ' + req.body.from);
+});
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
